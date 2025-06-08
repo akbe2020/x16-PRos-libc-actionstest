@@ -13,10 +13,10 @@ add_compile_options(
         -Wextra
 )
 
-file(GLOB_RECURSE LIBC_SOURCES "src/*.c")
-
-include_directories("include")
+file(GLOB_RECURSE LIBC_SOURCES "src/*.c" "include/*.h")
 
 add_library(i686-PRos-libc STATIC
         ${LIBC_SOURCES}
 )
+
+target_include_directories(i686-PRos-libc PUBLIC include)

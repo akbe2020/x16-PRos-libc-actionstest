@@ -7,8 +7,11 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_compile_options(
-        -ffreestanding
+        -m16
         -nostdlib
+        -nostdinc
+        -ffreestanding
+        -c
         -Wall
         -Wextra
 )

@@ -6,11 +6,11 @@
 int atoi (const char *); // todo
 long atol (const char *); // todo
 long long atoll (const char *); // todo: use atol()
-double atof (const char *); // not planned
+double atof (const char *); // todo: without locale
 
-float strtof (const char *__restrict, char **__restrict); // not planned
-double strtod (const char *__restrict, char **__restrict); // not planned
-long double strtold (const char *__restrict, char **__restrict); // not planned
+float strtof (const char *__restrict, char **__restrict); // todo: without locale
+double strtod (const char *__restrict, char **__restrict); // todo: without locale
+long double strtold (const char *__restrict, char **__restrict); // todo: without locale
 
 long strtol (const char *__restrict, char **__restrict, int); // todo
 unsigned long strtoul (const char *__restrict, char **__restrict, int); // todo

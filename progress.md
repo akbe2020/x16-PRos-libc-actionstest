@@ -9,6 +9,8 @@
 - **(n/m)** In progress
 - **(X)** Not implemented
 
+> **(0/0)** means that the header file does not contain any functions and has been defined
+
 ## Headers
 - `<assert.h>` - **(X)**
 - `<complex.h>` - **(X)**
@@ -25,7 +27,7 @@
 - `<signal.h>` - **(X)**
 - `<stdarg.h>` - **(X)**
 - `<stdbool.h>` - **(X)**
-- `<stddef.h>` - **(X)**
+- `<stddef.h>` - **(0/0)**
 - `<stdint.h>` - **(X)**
 - `<stdio.h>` - **(X)**
 - `<stdlib.h>` - **(9/36)**

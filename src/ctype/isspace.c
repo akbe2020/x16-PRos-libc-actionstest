@@ -1,5 +1,0 @@
-#include <ctype.h>
-
-int isspace(const int c) {
-    return c == ' ' || (unsigned) c - '\t' < 5;
-}

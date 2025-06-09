@@ -1,7 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include <types.h>
+#include <stddef.h>
 
 void *memcpy (void *__restrict, const void *__restrict, size_t);
 void *memmove (void *, const void *, size_t);

@@ -11,12 +11,11 @@ add_compile_options(
         -nostdlib
         -nostdinc
         -ffreestanding
-        -c
         -Wall
         -Wextra
 )
 
-file(GLOB_RECURSE LIBC_SOURCES "src/*.c" "include/*.h")
+file(GLOB_RECURSE LIBC_SOURCES "src/*.c")
 
 add_library(x16-PRos-libc STATIC
         ${LIBC_SOURCES}

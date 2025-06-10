@@ -3,6 +3,7 @@
 ### Useful resources:
 - [cpp reference headers](https://en.cppreference.com/w/c/header)
 - [musl libc](https://git.musl-libc.org/cgit/musl/tree/)
+- [newlib libc](https://sourceware.org/git/?p=newlib-cygwin.git;a=tree)
 
 ## Legend
 - **(n/n)** Implemented

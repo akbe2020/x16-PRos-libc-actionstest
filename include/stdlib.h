@@ -57,11 +57,11 @@ div_t div(int, int);
 ldiv_t ldiv(long, long);
 lldiv_t lldiv(long long, long long);
 
-// int mblen(const char *, size_t); // not planned
-// int mbtowc(wchar_t *__restrict, const char *__restrict, size_t); // not planned
-// int wctomb(char *, wchar_t); // not planned
-// size_t mbstowcs(wchar_t *__restrict, const char *__restrict, size_t); // not planned
-// size_t wcstombs(char *__restrict, const wchar_t *__restrict, size_t); // not planned
+int mblen(const char *, size_t); // not planned
+int mbtowc(wchar_t *__restrict, const char *__restrict, size_t); // not planned
+int wctomb(char *, wchar_t); // not planned
+size_t mbstowcs(wchar_t *__restrict, const char *__restrict, size_t); // not planned
+size_t wcstombs(char *__restrict, const wchar_t *__restrict, size_t); // not planned
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0

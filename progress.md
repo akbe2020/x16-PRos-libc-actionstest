@@ -8,7 +8,7 @@
 
 ## Legend
 
-- ✅ All functions implemented
+- ✅ Everything implemented
 - ⚠️ **(n/m)** Not all has been implemented
 - ➖ Header does not contain that type
 - 🚫 I did not have that even opened (likely)

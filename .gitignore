@@ -54,3 +54,26 @@ dkms.conf
 
 # CLion
 .idea/
+
+# CLion build directories
+cmake-build-*/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+CMakeUserPresets.json
+
+# MacOS Finder files.
+.DS_Store
+
+# Common build directories
+build*/
+
+# Visual Studio Code
+.vscode/
+.cache/
+.vs/
+out/
+
+# clang-tidy output
+clang-tidy-fixes.patch

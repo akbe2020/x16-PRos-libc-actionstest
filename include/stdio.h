@@ -28,12 +28,12 @@ typedef struct FILE {
 int printf(const char *format, ...);
 // int fprintf(FILE *stream, const char *format, ...); // todo
 // int sprintf(char *str, const char *format, ...); // todo
-// int snprintf(char *str, size_t size, const char *format, ...); // todo
+int snprintf(char *str, size_t size, const char *format, ...);
 
 // int vprintf(const char *format, va_list ap); // todo
 // int vfprintf(FILE *stream, const char *format, va_list ap); // todo
 int vsprintf(char *buf, const char *fmt, const va_list args);
-// int vsnprintf(char *str, size_t size, const char *format, va_list ap); // todo
+int vsnprintf(char *str, size_t size, const char *format, va_list ap);
 
 // int scanf(const char *format, ...); // todo
 // int fscanf(FILE *stream, const char *format, ...); // todo

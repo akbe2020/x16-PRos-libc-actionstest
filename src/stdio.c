@@ -124,6 +124,14 @@ int printf(const char *fmt, ...) {
     return i;
 }
 
+int snprintf(char *str, size_t size, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int ret = vsnprintf(str, size, format, args);
+    va_end(args);
+    return ret;
+}
+
 int vsprintf(char *buf, const char *fmt, const va_list args) {
     const char *start = buf;
 
@@ -377,6 +385,26 @@ int vsprintf(char *buf, const char *fmt, const va_list args) {
 
     *buf = '\0';
     return buf - start;
+}
+
+int vsnprintf(char *str, size_t size, const char *format, va_list ap) {
+    va_list ap2;
+    va_copy(ap2, ap);
+    // Use global printbuf to format the entire string
+    int total_len = vsprintf(printbuf, format, ap2);
+    va_end(ap2);
+
+    if (size > 0) {
+        // Determine how much to copy
+        size_t to_copy = total_len;
+        if (to_copy >= size) {
+            to_copy = size - 1;
+        }
+        memcpy(str, printbuf, to_copy);
+        str[to_copy] = '\0';
+    }
+
+    return total_len;
 }
 
 char getchar(void) {

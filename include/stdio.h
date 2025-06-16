@@ -32,7 +32,7 @@ int printf(const char *format, ...);
 
 // int vprintf(const char *format, va_list ap); // todo
 // int vfprintf(FILE *stream, const char *format, va_list ap); // todo
-int vsprintf(char *buf, const char *fmt, va_list args);
+int vsprintf(char *buf, const char *fmt, const va_list args);
 // int vsnprintf(char *str, size_t size, const char *format, va_list ap); // todo
 
 // int scanf(const char *format, ...); // todo

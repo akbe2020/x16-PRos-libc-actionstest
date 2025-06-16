@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
+set(CMAKE_C_COMPILER "i686-elf-gcc")
 set(CMAKE_C_COMPILER_WORKS ON)
 project(x16-PRos-libc C)
 
@@ -11,8 +12,12 @@ add_compile_options(
         -nostdlib
         -nostdinc
         -ffreestanding
+        -Wno-unused-function
         -Wall
         -Wextra
+        -Os
+        -march=i386
+        -fno-pic
 )
 
 file(GLOB_RECURSE LIBC_SOURCES "src/*.c")

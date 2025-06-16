@@ -32,6 +32,6 @@ char *strtok (char *__restrict, const char *__restrict);
 
 size_t strlen (const char *);
 
-char *strerror (int); // not planned
+// char *strerror (int); // not planned
 
 #endif // STRING_H

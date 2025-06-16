@@ -3,6 +3,7 @@
 
 // #include <stdarg.h>
 #include <stddef.h>
+#include <stdarg.h>
 
 #ifndef EOF
 #define EOF (-1)
@@ -24,14 +25,14 @@ typedef struct FILE {
 // extern FILE *stdout; // todo
 // extern FILE *stderr; // todo
 
-// int printf(const char *format, ...); // todo
+int printf(const char *format, ...);
 // int fprintf(FILE *stream, const char *format, ...); // todo
 // int sprintf(char *str, const char *format, ...); // todo
 // int snprintf(char *str, size_t size, const char *format, ...); // todo
 
 // int vprintf(const char *format, va_list ap); // todo
 // int vfprintf(FILE *stream, const char *format, va_list ap); // todo
-// int vsprintf(char *str, const char *format, va_list ap); // todo
+int vsprintf(char *buf, const char *fmt, va_list args);
 // int vsnprintf(char *str, size_t size, const char *format, va_list ap); // todo
 
 // int scanf(const char *format, ...); // todo

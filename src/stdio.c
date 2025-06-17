@@ -202,7 +202,7 @@ int vsprintf(char *buf, const char *fmt, const va_list args) {
         // Handle conversion specifier
         switch (*fmt) {
             case 'c': {
-                char c = (char) va_arg(args, int);
+                const char c = (char) va_arg(args, int);
                 *buf++ = c;
                 break;
             }
@@ -387,11 +387,11 @@ int vsprintf(char *buf, const char *fmt, const va_list args) {
     return buf - start;
 }
 
-int vsnprintf(char *str, size_t size, const char *format, va_list ap) {
+int vsnprintf(char *str, const size_t size, const char *format, va_list ap) {
     va_list ap2;
     va_copy(ap2, ap);
     // Use global printbuf to format the entire string
-    int total_len = vsprintf(printbuf, format, ap2);
+    const int total_len = vsprintf(printbuf, format, ap2);
     va_end(ap2);
 
     if (size > 0) {

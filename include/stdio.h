@@ -27,21 +27,21 @@ typedef struct FILE {
 
 int printf(const char *format, ...);
 // int fprintf(FILE *stream, const char *format, ...); // todo
-// int sprintf(char *str, const char *format, ...); // todo
-int snprintf(char *str, size_t size, const char *format, ...);
+int sprintf(const char *str, const char *format, ...);
+int snprintf(const char *str, size_t size, const char *format, ...);
 
-// int vprintf(const char *format, va_list ap); // todo
+int vprintf(const char *format, va_list ap);
 // int vfprintf(FILE *stream, const char *format, va_list ap); // todo
 int vsprintf(char *buf, const char *fmt, const va_list args);
 int vsnprintf(char *str, size_t size, const char *format, va_list ap);
 
-// int scanf(const char *format, ...); // todo
+int scanf(const char *format, ...);
 // int fscanf(FILE *stream, const char *format, ...); // todo
-// int sscanf(const char *str, const char *format, ...); // todo
+int sscanf(const char *str, const char *format, ...);
 
 // int vscanf(const char *format, va_list ap); // todo
 // int vfscanf(FILE *stream, const char *format, va_list ap); // todo
-// int vsscanf(const char *str, const char *format, va_list ap); // todo
+int vsscanf(const char *str, const char *format, va_list ap);
 
 // FILE *fopen(const char *path, const char *mode); // todo
 // int fclose(FILE *stream); // todo

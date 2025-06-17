@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include <ctype.h>
 
 FILE __stdin;
 FILE __stdout;
@@ -109,11 +110,11 @@ char *__number_conversion(
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
-int printf(const char *fmt, ...) {
+int printf(const char *format, ...) {
     va_list args;
 
-    va_start(args, fmt);
-    const int i = vsprintf(printbuf, fmt, args);
+    va_start(args, format);
+    const int i = vsprintf(printbuf, format, args);
     va_end(args);
 
     const char *p = printbuf;
@@ -124,12 +125,29 @@ int printf(const char *fmt, ...) {
     return i;
 }
 
-int snprintf(char *str, size_t size, const char *format, ...) {
+int sprintf(const char *str, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int ret = vsprintf(str, format, args);
+    va_end(args);
+    return ret;
+}
+
+int snprintf(const char *str, size_t size, const char *format, ...) {
     va_list args;
     va_start(args, format);
     int ret = vsnprintf(str, size, format, args);
     va_end(args);
     return ret;
+}
+
+int vprintf(const char *format, va_list ap) {
+    int len = vsprintf(printbuf, format, ap);
+    const char *p = printbuf;
+    for (int i = 0; i < len; i++) {
+        putchar(*p++);
+    }
+    return len;
 }
 
 int vsprintf(char *buf, const char *fmt, const va_list args) {
@@ -405,6 +423,342 @@ int vsnprintf(char *str, const size_t size, const char *format, va_list ap) {
     }
 
     return total_len;
+}
+
+int scanf(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    
+    char buffer[1024];
+    int buffer_pos = 0;
+    int c;
+
+    while (buffer_pos < sizeof(buffer) - 1 && 
+          (c = getchar()) != '\r' && c != '\n') {
+        buffer[buffer_pos++] = (char)c;
+    }
+    
+    buffer[buffer_pos] = '\0';
+    if (c == EOF && buffer_pos == 0) {
+        va_end(args);
+        return EOF;
+    }
+    
+    int count = vsscanf(buffer, format, args);
+    va_end(args);
+    
+    return count;
+}
+
+int sscanf(const char *str, const char *format, ...) {
+    va_list ap;
+    va_start(ap, format);
+    int count = vsscanf(str, format, ap);
+    va_end(ap);
+    return count;
+}
+
+int vsscanf(const char *str, const char *format, va_list ap) {
+    int count = 0;
+    const char *p = str;
+
+    while (*format) {
+        // skip whitespace in format
+        if (isspace((unsigned char)*format)) {
+            while (isspace((unsigned char)*p)) p++;
+            format++;
+            continue;
+        }
+
+        // match non-format characters
+        if (*format != '%') {
+            if (*p != *format) break;
+            p++;
+            format++;
+            continue;
+        }
+
+        format++;  // skip '%'
+        int suppress = 0;
+        if (*format == '*') {
+            suppress = 1;
+            format++;
+        }
+
+        int width = -1;
+        if (isdigit((unsigned char)*format)) {
+            width = 0;
+            while (isdigit((unsigned char)*format)) {
+                width = width * 10 + (*format - '0');
+                format++;
+            }
+        }
+
+        switch (*format) {
+            // integer
+            case 'd': case 'i': case 'o': case 'u': case 'x': case 'X': {
+                int base = 0;
+                int sign = 1;
+                
+                if (*format == 'd' || *format == 'i') base = 10;
+                else if (*format == 'o') base = 8;
+                else if (*format == 'u') base = 10;
+                else if (*format == 'x' || *format == 'X') base = 16;
+                
+                while (isspace((unsigned char)*p)) p++;
+                
+                int max_chars = (width == -1) ? 1000000 : width;
+                const char *start = p;
+                
+                // negative
+                if (max_chars > 0 && (*p == '+' || *p == '-')) {
+                    if (*p == '-') sign = -1;
+                    p++;
+                    max_chars--;
+                }
+                
+                if (base == 0) {
+                    if (max_chars > 0 && *p == '0') {
+                        p++;
+                        max_chars--;
+                        if (max_chars > 0 && (*p == 'x' || *p == 'X')) {
+                            base = 16;
+                            p++;
+                            max_chars--;
+                        } else {
+                            base = 8;
+                        }
+                    } else {
+                        base = 10;
+                    }
+                } else if (base == 16 && max_chars >= 2 && 
+                          p[0] == '0' && (p[1] == 'x' || p[1] == 'X')) {
+                    p += 2;
+                    max_chars -= 2;
+                }
+                
+                unsigned long value = 0;
+                int any_digit = 0;
+                
+                while (max_chars > 0 && *p) {
+                    char c = *p;
+                    int digit = -1;
+                    
+                    if (c >= '0' && c <= '9') digit = c - '0';
+                    else if (base > 10) {
+                        if (c >= 'a' && c <= 'f') digit = c - 'a' + 10;
+                        else if (c >= 'A' && c <= 'F') digit = c - 'A' + 10;
+                    }
+                    
+                    if (digit < 0 || digit >= base) break;
+                    
+                    value = value * base + digit;
+                    any_digit = 1;
+                    p++;
+                    max_chars--;
+                }
+                
+                if (!any_digit) goto end;
+                long result = sign * (long)value;
+                
+                if (!suppress) {
+                    int *ptr = va_arg(ap, int*);
+                    *ptr = (int)result;
+                    count++;
+                }
+                break;
+            }
+            
+            case 'f':
+            case 'F': {
+                while (isspace((unsigned char)*p)) p++;
+                
+                int max = (width == -1) ? 1000000 : width;
+                const char *start = p;
+                int sign = 1;
+                
+                // negative
+                if (max > 0 && (*p == '+' || *p == '-')) {
+                    if (*p == '-') sign = -1;
+                    p++;
+                    max--;
+                }
+                
+                float value = 0.0f;
+                int any_digit = 0;
+                
+                // base
+                while (max > 0 && isdigit(*p)) {
+                    value = value * 10.0f + (*p - '0');
+                    p++;
+                    max--;
+                    any_digit = 1;
+                }
+                
+                // fractional
+                if (max > 0 && *p == '.') {
+                    p++;
+                    max--;
+                    float frac = 0.0f;
+                    float divisor = 1.0f;
+                    
+                    while (max > 0 && isdigit(*p)) {
+                        frac = frac * 10.0f + (*p - '0');
+                        divisor *= 10.0f;
+                        p++;
+                        max--;
+                        any_digit = 1;
+                    }
+                    
+                    if (divisor > 1.0f) {
+                        value += frac / divisor;
+                    }
+                }
+                
+                // exponent
+                if (any_digit && max > 0 && (*p == 'e' || *p == 'E')) {
+                    p++;
+                    max--;
+                    int exp_sign = 1;
+                    
+                    if (max > 0 && (*p == '+' || *p == '-')) {
+                        if (*p == '-') exp_sign = -1;
+                        p++;
+                        max--;
+                    }
+                    
+                    int exp_val = 0;
+                    int exp_digits = 0;
+                    
+                    while (max > 0 && isdigit(*p)) {
+                        exp_val = exp_val * 10 + (*p - '0');
+                        p++;
+                        max--;
+                        exp_digits++;
+                    }
+                    
+                    if (exp_digits) {
+                        if (exp_sign < 0) exp_val = -exp_val;
+                        
+                        if (exp_val > 0) {
+                            while (exp_val-- > 0) value *= 10.0f;
+                        } else if (exp_val < 0) {
+                            while (exp_val++ < 0) value /= 10.0f;
+                        }
+                    }
+                }
+                
+                if (!any_digit) {
+                    p = start;
+                    goto end;
+                }
+                
+                value *= sign;
+                
+                if (!suppress) {
+                    float *dest = va_arg(ap, float*);
+                    *dest = value;
+                    count++;
+                }
+                break;
+            }
+            
+            case 'c': {
+                int read_count = (width == -1) ? 1 : width;
+                
+                if (!suppress) {
+                    char *dest = va_arg(ap, char*);
+                    for (int i = 0; i < read_count && *p; i++) {
+                        *dest++ = *p++;
+                    }
+                    count++;
+                } else {
+                    for (int i = 0; i < read_count && *p; i++) p++;
+                }
+                break;
+            }
+            
+            case 's': {
+                while (isspace((unsigned char)*p)) p++;
+                
+                int max = (width == -1) ? 1000000 : width;
+                if (!suppress) {
+                    char *dest = va_arg(ap, char*);
+                    while (max > 0 && *p && !isspace((unsigned char)*p)) {
+                        *dest++ = *p++;
+                        max--;
+                    }
+                    *dest = '\0';
+                    count++;
+                } else {
+                    while (max > 0 && *p && !isspace((unsigned char)*p)) {
+                        p++;
+                        max--;
+                    }
+                }
+                break;
+            }
+            
+            case 'p': {
+                while (isspace((unsigned char)*p)) p++;
+                
+                int max_chars = (width == -1) ? 1000000 : width;
+                if (max_chars >= 2 && p[0] == '0' && (p[1] == 'x' || p[1] == 'X')) {
+                    p += 2;
+                    max_chars -= 2;
+                }
+                
+                unsigned long value = 0;
+                int any_digit = 0;
+                
+                while (max_chars > 0 && *p) {
+                    char c = *p;
+                    int digit = -1;
+                    
+                    if (c >= '0' && c <= '9') digit = c - '0';
+                    else if (c >= 'a' && c <= 'f') digit = c - 'a' + 10;
+                    else if (c >= 'A' && c <= 'F') digit = c - 'A' + 10;
+                    
+                    if (digit < 0) break;
+                    
+                    value = value * 16 + digit;
+                    any_digit = 1;
+                    p++;
+                    max_chars--;
+                }
+                
+                if (!any_digit) goto end;
+                if (!suppress) {
+                    void **ptr = va_arg(ap, void**);
+                    *ptr = (void*)(unsigned long)value;
+                    count++;
+                }
+                break;
+            }
+            
+            // count
+            case 'n': {
+                if (!suppress) {
+                    int *ptr = va_arg(ap, int*);
+                    *ptr = (int)(p - str);
+                }
+                break;
+            }
+            
+            case '%': {
+                if (*p != '%') goto end;
+                p++;
+                break;
+            }
+            
+            default:
+                goto end;
+        }
+        format++;
+    }
+
+end:
+    return count;
 }
 
 char getchar(void) {

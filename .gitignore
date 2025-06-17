@@ -59,9 +59,14 @@ dkms.conf
 cmake-build-*/
 
 # CMake
+.cmake/
 CMakeFiles/
 CMakeCache.txt
 CMakeUserPresets.json
+cmake_install.cmake
+
+# Make
+Makefile
 
 # MacOS Finder files.
 .DS_Store

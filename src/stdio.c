@@ -435,7 +435,18 @@ int scanf(const char *format, ...) {
 
     while (buffer_pos < sizeof(buffer) - 1 && 
           (c = getchar()) != '\r' && c != '\n') {
-        buffer[buffer_pos++] = (char)c;
+        if (c == 8) {
+            if (buffer_pos == 0)
+                continue;
+            buffer[buffer_pos] = 0;
+            buffer_pos--;
+            putchar(c);
+            putchar(' ');
+            putchar(c);
+        } else {
+            buffer[buffer_pos++] = (char)c;
+            putchar(c);
+        }
     }
     
     buffer[buffer_pos] = '\0';
@@ -769,7 +780,6 @@ char getchar(void) {
         : "=a" (result)
         : :
     );
-    putchar(result);
     return result;
 }
 

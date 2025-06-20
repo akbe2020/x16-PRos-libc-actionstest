@@ -446,7 +446,7 @@ int scanf(const char *restrict format, ...) {
 int sscanf(const char *restrict str, const char *restrict format, ...) {
     va_list ap;
     va_start(ap, format);
-    int count = vsscanf(str, format, ap);
+    const int count = vsscanf(str, format, ap);
     va_end(ap);
     return count;
 }

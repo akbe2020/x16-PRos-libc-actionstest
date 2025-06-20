@@ -15,6 +15,8 @@ add_compile_options(
         -Wno-unused-function
         -Wall
         -Wextra
+        -fdata-sections
+        -ffunction-sections
         -Os
         -march=i386
         -fno-pic

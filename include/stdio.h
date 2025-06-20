@@ -1,7 +1,6 @@
 #ifndef STDIO_H
 #define STDIO_H
 
-// #include <stdarg.h>
 #include <stddef.h>
 #include <stdarg.h>
 
@@ -21,57 +20,66 @@ typedef struct FILE {
     size_t buf_pos;
 } FILE;
 
-// extern FILE *stdin; // todo
-// extern FILE *stdout; // todo
-// extern FILE *stderr; // todo
+// FILE *fopen(const char *restrict, const char *restrict);
+// FILE *freopen(const char *restrict, const char *restrict, FILE *restrict);
+// int fclose(FILE *);
 
-int printf(const char *format, ...);
-// int fprintf(FILE *stream, const char *format, ...); // todo
-int sprintf(const char *str, const char *format, ...);
-int snprintf(const char *str, size_t size, const char *format, ...);
+// int remove(const char *);
+// int rename(const char *, const char *);
 
-int vprintf(const char *format, va_list ap);
-// int vfprintf(FILE *stream, const char *format, va_list ap); // todo
-int vsprintf(char *buf, const char *fmt, const va_list args);
-int vsnprintf(char *str, size_t size, const char *format, va_list ap);
+// int feof(FILE *);
+// int ferror(FILE *);
+// int fflush(FILE *);
+// void clearerr(FILE *);
 
-int scanf(const char *format, ...);
-// int fscanf(FILE *stream, const char *format, ...); // todo
-int sscanf(const char *str, const char *format, ...);
+// int fseek(FILE *, long, int);
+// long ftell(FILE *);
+// void rewind(FILE *);
 
-// int vscanf(const char *format, va_list ap); // todo
-// int vfscanf(FILE *stream, const char *format, va_list ap); // todo
-int vsscanf(const char *str, const char *format, va_list ap);
+// int fgetpos(FILE *restrict, fpos_t *restrict);
+// int fsetpos(FILE *, const fpos_t *);
 
-// FILE *fopen(const char *path, const char *mode); // todo
-// int fclose(FILE *stream); // todo
-// int fflush(FILE *stream); // todo
-// int remove(const char *path); // todo
-// int rename(const char *oldpath, const char *newpath); // todo
+// size_t fread(void *restrict, size_t, size_t, FILE *restrict);
+// size_t fwrite(const void *restrict, size_t, size_t, FILE *restrict);
 
-// size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream); // todo
-// size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream); // todo
+// int fgetc(FILE *);
+// int getc(FILE *);
+int getchar(void);
+// int ungetc(int, FILE *);
 
-// int fgetc(FILE *stream); // todo
-// int getc(FILE *stream); // todo
-char getchar(void);
+// int fputc(int, FILE *);
+// int putc(int, FILE *);
+int putchar(int);
 
-// int fputc(int c, FILE *stream); // todo
-// int putc(int c, FILE *stream); // todo
-int putchar(char c);
+// char *fgets(char *restrict, int, FILE *restrict);
+// char *gets(char *);
 
-// char *fgets(char *s, int size, FILE *stream); // todo
-// int fputs(const char *s, FILE *stream); // todo
-int puts(const char *s);
+// int fputs(const char *restrict, FILE *restrict);
+int puts(const char *);
 
-// int fseek(FILE *stream, long offset, int whence); // todo
-// long ftell(FILE *stream); // todo
-// void rewind(FILE *stream); // todo
+int printf(const char *restrict, ...);
+// int fprintf(FILE *restrict, const char *restrict, ...);
+int sprintf(char *restrict, const char *restrict, ...);
+int snprintf(char *restrict, size_t, const char *restrict, ...);
 
-// int feof(FILE *stream); // todo
-// int ferror(FILE *stream); // todo
-// void clearerr(FILE *stream); // todo
+int vprintf(const char *restrict, va_list);
+// int vfprintf(FILE *restrict, const char *restrict, va_list);
+int vsprintf(char *restrict, const char *restrict, va_list);
+int vsnprintf(char *restrict, size_t, const char *restrict, va_list);
 
-// void perror(const char *s); // todo
+int scanf(const char *restrict, ...);
+// int fscanf(FILE *restrict, const char *restrict, ...);
+int sscanf(const char *restrict, const char *restrict, ...);
+// int vscanf(const char *restrict, va_list);
+// int vfscanf(FILE *restrict, const char *restrict, va_list);
+int vsscanf(const char *restrict, const char *restrict, va_list);
+
+// void perror(const char *);
+
+// int setvbuf(FILE *restrict, char *restrict, int, size_t);
+// void setbuf(FILE *restrict, char *restrict);
+
+// char *tmpnam(char *);
+// FILE *tmpfile(void);
 
 #endif //STDIO_H

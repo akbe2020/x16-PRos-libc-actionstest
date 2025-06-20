@@ -412,7 +412,7 @@ int scanf(const char *restrict format, ...) {
     va_start(args, format);
 
     char buffer[1024];
-    int buffer_pos = 0;
+    size_t buffer_pos = 0;
     int c;
 
     while (buffer_pos < sizeof(buffer) - 1 &&
@@ -772,7 +772,7 @@ int putchar(int c) {
         "mov $0x00, %%bh\n"
         "mov $0x0F, %%bl\n"
         "int $0x10"
-        : : "r" (c)
+        : : "r" ((char) c)
         : "%ah", "%al", "%bh", "%bl"
     );
     return EOF;

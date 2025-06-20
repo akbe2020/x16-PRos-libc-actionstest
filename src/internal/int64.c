@@ -25,7 +25,7 @@ int64_t __moddi3(const int64_t numerator, const int64_t denominator) {
     return numerator < 0 ? -rem : rem;
 }
 
-int64_t __divmoddi4(const int64_t numerator, const int64_t denominator, int64_t *reminder) {
-    *reminder = numerator % denominator;
+int64_t __divmoddi4(const int64_t numerator, const int64_t denominator, int64_t *remainder) {
+    *remainder = numerator % denominator;
     return numerator / denominator;
 }

@@ -24,7 +24,7 @@ uint64_t __umoddi3(const uint64_t numerator, const uint64_t denominator) {
     return r;
 }
 
-uint64_t __udivmoddi4(const uint64_t numerator, const uint64_t denominator, uint64_t *reminder) {
-    *reminder = numerator % denominator;
+uint64_t __udivmoddi4(const uint64_t numerator, const uint64_t denominator, uint64_t *remainder) {
+    *remainder = numerator % denominator;
     return numerator / denominator;
 }

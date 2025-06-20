@@ -7,6 +7,6 @@ uint64_t __udivdi3(uint64_t numerator, uint64_t denominator);
 
 uint64_t __umoddi3(uint64_t numerator, uint64_t denominator);
 
-uint64_t __udivmoddi4(uint64_t numerator, uint64_t denominator, uint64_t *reminder);
+uint64_t __udivmoddi4(uint64_t numerator, uint64_t denominator, uint64_t *remainder);
 
 #endif //UINT64_H

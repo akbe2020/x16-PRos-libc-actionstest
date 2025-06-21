@@ -27,10 +27,11 @@ jobs:
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         source /home/runner/.bashrc
         brew install i686-elf-gcc
+        echo "CC=$(which i686-elf-gcc)" >> $GITHUB_ENV
 
     - name: Configure CMake
       run: |
-        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_C_COMPILER=$(which i686-elf-gcc)
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_C_COMPILER=${{env.CC}}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build

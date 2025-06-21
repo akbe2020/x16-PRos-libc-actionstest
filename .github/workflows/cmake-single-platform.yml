@@ -25,7 +25,7 @@ jobs:
         echo >> ~/.bashrc
         echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        source ~.bashrc
+        source ~/.bashrc
         brew install i686-elf-gcc
         echo "CC=$(which i686-elf-gcc)" >> $GITHUB_ENV
 

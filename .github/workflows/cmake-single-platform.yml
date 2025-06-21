@@ -30,7 +30,7 @@ jobs:
         echo $(which i686-elf-gcc)
 
     - name: Configure CMake
-      run:  |
+      run: |
         echo $(which i686-elf-gcc)
         cmake -B ${{github.workspace}}/build -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} CMAKE_C_COMPILER=$(which i686-elf-gcc)
 

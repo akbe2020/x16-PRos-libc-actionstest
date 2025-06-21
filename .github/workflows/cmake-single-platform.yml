@@ -27,7 +27,7 @@ jobs:
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         source /home/runner/.bashrc
         brew install i686-elf-gcc
-        source /home/runner/.bashrc
+        i686-elf-gcc --version
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
